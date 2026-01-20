@@ -1,0 +1,65 @@
+[tasks]
+    [tasks.clean]
+        help = "Clean the project"
+        cmd = "uvx pyclean src"
+
+    [tasks.ruff_format]
+        help = "format codebase with ruff"
+        cmd = "ruff format ./src ./tests"
+
+    [tasks.ruff_check-fix]
+        help = "fix codebase with ruff"
+        cmd = "ruff check --fix ./src ./tests"
+    [tasks.ruff_check]
+        help = "lint codebase with ruff"
+        cmd = "ruff check ./src ./tests"
+
+    [tasks.uv-sort]
+        help = "fixes order of imports"
+        cmd = "uv run uv-sort"
+
+    [tasks.uv-sort_check]
+        help = "Checks if uv-sort was fixed"
+        cmd = "uv run uv-sort --check"
+
+    # TODO
+    # [tasks.pyright]
+    #     help = "Checks type hints with pyright"
+    #     cmd = "uv run pyright --warnings"
+
+    [tasks.lint]
+        help = "Checks linting"
+        sequence = ["uv-sort_check", "ruff_check"]  #, "pyright"] # TODO
+
+    [tasks.format]
+        help = "Reformat"
+        sequence = ["uv-sort", "ruff_format", "ruff_check-fix", "lint"]
+
+    [tasks.test]
+        help = "Run tests"
+        cmd = "pytest tests/unit_tests/"
+
+    [tasks.dev]
+    help = "Run the development tasks"
+    sequence = ["clean", "format", "test"]
+
+    [tasks.build]
+    help = "Build the project"
+    cmd = "uv build --all-packages --wheel"
+
+    [tasks.sync_all]
+    help = "uv sync everything"
+    cmd = "uv sync --locked --all-groups"
+
+    [tasks.sync_release]
+    help = "uv sync release"
+    cmd = "uv sync --locked"
+
+    [tasks.sync]
+    help = "Run the CI pipeline tasks"
+    sequence = ["sync_all"]
+
+
+    [tasks.ci]
+    help = "Run the CI pipeline tasks"
+    sequence = ["sync_all", "lint", "test", "build"]

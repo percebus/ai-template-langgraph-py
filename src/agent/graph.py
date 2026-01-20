@@ -6,11 +6,12 @@ Returns a predefined response. Replace logic and configuration as needed.
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Any, Dict
+from typing import TYPE_CHECKING, Any, TypedDict
 
 from langgraph.graph import StateGraph
-from langgraph.runtime import Runtime
-from typing_extensions import TypedDict
+
+if TYPE_CHECKING:
+    from langgraph.runtime import Runtime
 
 
 class Context(TypedDict):
@@ -34,21 +35,15 @@ class State:
     changeme: str = "example"
 
 
-async def call_model(state: State, runtime: Runtime[Context]) -> Dict[str, Any]:
+async def call_model(state: State, runtime: Runtime[Context]) -> dict[str, Any]:
     """Process input and returns output.
 
     Can use runtime context to alter behavior.
     """
-    return {
-        "changeme": "output from call_model. "
-        f"Configured with {(runtime.context or {}).get('my_configurable_param')}"
-    }
+    result = (runtime.context or {}).get("my_configurable_param")
+    output = f"output from call_model.  Configured with {result}"
+    return {"changeme": output}
 
 
 # Define the graph
-graph = (
-    StateGraph(State, context_schema=Context)
-    .add_node(call_model)
-    .add_edge("__start__", "call_model")
-    .compile(name="New Graph")
-)
+graph = StateGraph(State, context_schema=Context).add_node(call_model).add_edge("__start__", "call_model").compile(name="New Graph")
