@@ -22,8 +22,13 @@ jobs:
     name: Unit Tests
     strategy:
       matrix:
-        os: [ubuntu-latest]
-        python-version: ["3.11", "3.12"]
+        os:
+          - ubuntu-latest
+
+        python-version:
+          - "3.11"
+          - "3.12"
+
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
