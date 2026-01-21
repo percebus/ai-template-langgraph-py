@@ -12,4 +12,4 @@ runs:
   steps:
     - name: helm lint
       shell: bash
-      run: helm lint ./helm
+      run: helm lint ${{ inputs.working-directory }}
