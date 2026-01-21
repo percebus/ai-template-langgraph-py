@@ -12,7 +12,7 @@ ENV PATH="/usr/app/.venv/bin:$PATH"
 
 
 FROM uv AS dev
-# RUN bash scripts/uv/tool/install.ba.sh  # TODO
+RUN bash scripts/uv/tool/install.ba.sh
 RUN uvx --from poethepoet poe sync
 RUN uvx --from poethepoet poe build
 CMD [ "uvx", "--from", "poethepoet", "poe", "ci" ]
@@ -26,4 +26,4 @@ RUN uvx --from poethepoet poe build
 
 # TODO use light image. alpine?
 FROM built AS release
-CMD [ "python", "-m", "FIXME" ]
+# CMD [ "python", "-m", "FIXME" ]

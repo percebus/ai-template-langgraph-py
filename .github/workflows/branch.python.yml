@@ -1,5 +1,3 @@
-# This workflow will run unit tests for the current project
-
 name: python
 
 on:
