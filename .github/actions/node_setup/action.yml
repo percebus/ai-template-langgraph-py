@@ -1,0 +1,34 @@
+name: setup
+description: setup node
+inputs:
+  node-version:
+    description: node version
+    required: false
+
+    # SRC: https://nodejs.org/en/about/previous-releases
+    # - "" is Maintenance LTS (18)
+    # - "lts/*" is Active LTS (22)
+    # - "latest" and "node" are Current (24)
+    default: "lts/*"
+
+outputs:
+  version:
+    description: "node --version"
+    value: ${{ steps.node-version.outputs.node-version }}
+
+runs:
+  using: composite
+  steps:
+    # TODO? When empty, default to input
+    # Instead of setup-node@v3
+    - name: setup node @ ${{ inputs.node-version }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ inputs.node-version }}
+
+    - name: node version
+      id: node-version
+      shell: bash
+      run: |
+        node --version
+        echo "version=$(echo node --version)" >> $GITHUB_OUTPUT

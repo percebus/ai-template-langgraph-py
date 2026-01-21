@@ -1,5 +1,31 @@
 services:
+
+  modelcontextprotocol.inspector:
+    # NOTE: If you want to build it from `npm install`
+    # build:
+    #   target: modelcontextprotocol.inspector
+    #
+    # NOTE: Using the pre-built image from GitHub Container Registry
+    image: ghcr.io/modelcontextprotocol/inspector:latest
+    # command: ["--config", "/app/mcp.json"] # Point to a configuration file if needed
+    ports:
+      - 6274:6274
+      - 6277:6277
+    #
+    # ISSUE
+    # SRC: https://github.com/modelcontextprotocol/inspector/issues/788
+    environment:
+      HOST: "0.0.0.0"
+
   agent:
     build:
       context: ./
       target: release
+
+  a2a-inspector:
+    build:
+      context: ./submodules/a2a-inspector
+    ports:
+      - 5001:8080
+    depends_on:
+      - agent
