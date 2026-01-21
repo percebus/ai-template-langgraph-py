@@ -45,7 +45,7 @@ jobs:
             scan-image: ${{ github.ref == 'refs/heads/main' }}
 
     runs-on: ubuntu-latest
-    name: docker build --target ${{ matrix.target }}
+    name: build --target ${{ matrix.target }}
     steps:
       - uses: actions/checkout@v4
 
