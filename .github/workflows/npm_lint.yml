@@ -8,8 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     name: lint
     steps:
-      - uses: actions/checkout@v4
-
+      - uses: ./.github/actions/checkout
       - uses: ./.github/actions/node_setup
       - uses: ./.github/actions/npm_install
 

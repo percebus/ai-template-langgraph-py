@@ -1,5 +1,4 @@
 services:
-
   modelcontextprotocol.inspector:
     # NOTE: If you want to build it from `npm install`
     # build:
