@@ -27,13 +27,58 @@
     #     help = "Checks type hints with pyright"
     #     cmd = "uv run pyright --warnings"
 
+
+    [tasks.terraform_init]
+    help = "Initialize terraform"
+    cmd = "terraform -chdir=./terra init -input=false -upgrade"
+
+    [tasks.terraform_validate]
+    help = "Validate terraform"
+    cmd = "terraform -chdir=./terra validate"
+
+    [tasks.terraform_fmt]
+    help = "Format terraform files"
+    cmd = "terraform -chdir=./terra fmt"
+
+    [tasks.terraform_fmt_check]
+    help = "Check terraform formatting"
+    cmd = "terraform -chdir=./terra fmt -check"
+
+    [tasks.terraform_update_plan]
+    help = "Update terraform plan"
+    args = [
+        {name = "var_file", help = "The terraform var file to use", default = "./env/dev.tfvars"}
+    ]
+    cmd = "terraform -chdir=./terra plan -var-file=${var_file} -out ./dist/apply.tfplan"
+
+    [tasks.terraform_update_apply]
+    help = "Apply terraform plan"
+    cmd = "terraform -chdir=./terra apply ./dist/apply.tfplan"
+
+    [tasks.terraform_destroy_plan]
+    help = "Create terraform destroy plan"
+    args = [
+        {name = "var_file", help = "The terraform var file to use", default = "./env/dev.tfvars"}
+    ]
+    cmd = "terraform -chdir=./terra plan -destroy -var-file=${var_file} -out ./dist/destroy.tfplan"
+
+    [tasks.terraform_destroy_apply]
+    help = "Apply terraform destroy plan"
+    cmd = "terraform -chdir=./terra apply -destroy ./dist/destroy.tfplan"
+
+
+    [tasks.helm_lint]
+    help = "Lint helm charts"
+    cmd = "helm lint ./helm"
+
+
     [tasks.lint]
         help = "Checks linting"
-        sequence = ["uv-sort_check", "ruff_check"]  #, "pyright"] # TODO
+        sequence = ["uv-sort_check", "ruff_check", "terraform_fmt_check", "helm_lint"]  #, "pyright"] # TODO
 
     [tasks.format]
         help = "Reformat"
-        sequence = ["uv-sort", "ruff_format", "ruff_check-fix", "lint"]
+        sequence = ["uv-sort", "ruff_format", "ruff_check-fix", "terraform_fmt", "lint"]
 
     [tasks.test]
         help = "Run tests"

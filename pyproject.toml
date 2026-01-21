@@ -32,22 +32,10 @@ dev = [
 ]
 
 [build-system]
-requires = [
-    "setuptools>=73.0.0,<74.0.0",
-    "wheel"
-]
-build-backend = "setuptools.build_meta"
+requires = ["hatchling"]
+build-backend = "hatchling.build"
 
-[tool.setuptools]
+[tool.hatch.build.targets.wheel]
 packages = [
-    "langgraph.templates.agent",
-    "agent"
+    "src/agent"
 ]
-
-[tool.setuptools.package-dir]
-"langgraph.templates.agent" = "src/agent"
-"agent" = "src/agent"
-
-
-[tool.setuptools.package-data]
-"*" = ["py.typed"]
