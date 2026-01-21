@@ -26,7 +26,7 @@ jobs:
 
   docker_ci:
     name: docker
-    needs: pythons_ci
+    needs: python_ci
     uses: ./.github/workflows/docker_ci.yml
 
   helm_lint:
