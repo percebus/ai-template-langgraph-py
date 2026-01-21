@@ -1,0 +1,14 @@
+name: helm lint
+
+on:
+  workflow_call: # SRC: https://docs.github.com/en/actions/using-workflows/reusing-workflows
+
+jobs:
+  helm_lint:
+    name: lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: ./.github/actions/helm_setup
+      - uses: ./.github/actions/helm_lint

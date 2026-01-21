@@ -1,12 +1,12 @@
-name: "[C]ontinuous [I]ntegration: PR - terra"
+name: "[C]ontinuous [I]ntegration: PR - helm"
 
 on:
   workflow_dispatch: # Allows triggering the workflow manually in GitHub UI
   pull_request:
     paths:
-      - .github/workflows/branch.terra.yml
-      - .github/workflows/terraform_ci.yml
-      - terra/**
+      - .github/workflows/branch.helm.yml
+      - .github/workflows/helm_ci.yml
+      - helm/**
 
 # If another push to the same PR or branch happens while this workflow is still running,
 # cancel the earlier run in favor of the next run.
@@ -18,6 +18,6 @@ permissions:
   contents: read
 
 jobs:
-  terraform_ci:
-    name: terraform
-    uses: ./.github/workflows/terraform_ci.yml
+  helm_ci:
+    name: helm
+    uses: ./.github/workflows/helm_ci.yml

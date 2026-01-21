@@ -16,20 +16,20 @@ permissions:
 
 jobs:
   python_ci:
+    name: python
     uses: ./.github/workflows/python_ci.yml
 
-  docker_compose_build:
-    name: docker compose build
-    runs-on: ubuntu-latest
-    needs: python_ci
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: docker compose build
-        run: docker compose build
-
-  # TODO Add helm
-
   terraform_ci:
-    needs: docker_compose_build
+    name: terraform
+    needs: python_ci
     uses: ./.github/workflows/terraform_ci.yml
+
+  docker_ci:
+    name: docker
+    needs: python_ci
+    uses: ./.github/workflows/docker_ci.yml
+
+  helm_lint:
+    name: helm
+    needs: docker_ci
+    uses: ./.github/workflows/helm_ci.yml

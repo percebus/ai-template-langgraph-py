@@ -3,6 +3,14 @@
         help = "Clean the project"
         cmd = "uvx pyclean src"
 
+    [tasks.prettier-write]
+        help = "format codebase with prettier"
+        cmd = "npx prettier . --write"
+
+    [tasks.prettier-check]
+        help = "check codebase formatting with prettier"
+        cmd = "npx prettier . --check"
+
     [tasks.ruff_format]
         help = "format codebase with ruff"
         cmd = "ruff format ./src ./tests"
@@ -69,7 +77,7 @@
 
     [tasks.helm_lint]
     help = "Lint helm charts"
-    cmd = "helm lint ./helm"
+    cmd = "helm lint --strict ./helm"
 
 
     [tasks.lint]
@@ -88,6 +96,7 @@
     help = "Run the development tasks"
     sequence = ["clean", "format", "test"]
 
+
     [tasks.build]
     help = "Build the project"
     cmd = "uv build --all-packages --wheel"
@@ -101,7 +110,7 @@
     cmd = "uv sync --locked"
 
     [tasks.sync]
-    help = "Run the CI pipeline tasks"
+    help = "sync all alias"
     sequence = ["sync_all"]
 
 

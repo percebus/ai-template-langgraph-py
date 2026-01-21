@@ -1,0 +1,16 @@
+name: docker CI
+
+on:
+  workflow_call: # SRC: https://docs.github.com/en/actions/using-workflows/reusing-workflows
+
+jobs:
+  docker_compose_build:
+    name: compose build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: docker compose build
+        run: docker compose build
+
+  # TODO docker build {target}

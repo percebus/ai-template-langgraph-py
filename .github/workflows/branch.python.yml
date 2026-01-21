@@ -1,9 +1,11 @@
-name: python
+name: "[C]ontinuous [I]ntegration: PR - python"
 
 on:
   workflow_dispatch: # Allows triggering the workflow manually in GitHub UI
   pull_request:
     paths:
+      - .github/workflows/branch.python.yml
+      - .github/workflows/python_ci.yml
       - src/**
       - tests/**
 
@@ -17,5 +19,6 @@ permissions:
   contents: read
 
 jobs:
-  python:
+  python_ci:
+    name: python
     uses: ./.github/workflows/python_ci.yml

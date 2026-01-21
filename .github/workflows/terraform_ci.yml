@@ -1,16 +1,16 @@
-name: terraform validate
+name: terraform fmt & validate
 
 on:
   workflow_call: # SRC: https://docs.github.com/en/actions/using-workflows/reusing-workflows
 
 jobs:
   terraform_ci:
-    name: terraform fmt check & validate
+    name: fmt check & validate
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
 
-      - uses: ./.github/actions/terraform_install
+      - uses: ./.github/actions/terraform_setup
       - uses: ./.github/actions/terraform_init
       - uses: ./.github/actions/terraform_fmt-check
       - uses: ./.github/actions/terraform_validate
