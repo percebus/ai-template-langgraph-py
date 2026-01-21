@@ -1,4 +1,4 @@
-name: docker compose
+name: "[C]ontinuous [I]ntegration: PR"
 
 on:
   workflow_dispatch: # Allows triggering the workflow manually in GitHub UI
