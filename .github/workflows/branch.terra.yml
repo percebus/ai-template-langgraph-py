@@ -1,4 +1,4 @@
-name: terraform validate
+name: "[C]ontinuous [I]ntegration: PR - terra"
 
 on:
   workflow_dispatch: # Allows triggering the workflow manually in GitHub UI
@@ -16,5 +16,6 @@ permissions:
   contents: read
 
 jobs:
-  terraform_validate:
+  terraform_ci:
+    name: terraform
     uses: ./.github/workflows/terraform_ci.yml

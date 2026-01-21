@@ -1,4 +1,4 @@
-name: "[C]ontinuous [I]ntegration: helm"
+name: helm lint
 
 on:
   workflow_call: # SRC: https://docs.github.com/en/actions/using-workflows/reusing-workflows
@@ -15,7 +15,7 @@ permissions:
 
 jobs:
   helm_lint:
-    name: helm lint
+    name: lint
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4

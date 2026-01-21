@@ -1,11 +1,11 @@
-name: "[C]ontinuous [I]ntegration: terraform"
+name: terraform CI
 
 on:
   workflow_call: # SRC: https://docs.github.com/en/actions/using-workflows/reusing-workflows
 
 jobs:
   terraform_ci:
-    name: terraform fmt check & validate
+    name: fmt check & validate
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4

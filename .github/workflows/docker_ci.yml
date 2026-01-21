@@ -1,11 +1,11 @@
-name: "[C]ontinuous [I]ntegration: docker"
+name: docker CI
 
 on:
   workflow_call: # SRC: https://docs.github.com/en/actions/using-workflows/reusing-workflows
 
 jobs:
   docker_compose_build:
-    name: docker compose build
+    name: compose build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4

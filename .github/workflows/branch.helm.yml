@@ -1,4 +1,4 @@
-name: helm lint
+name: "[C]ontinuous [I]ntegration: PR - helm"
 
 on:
   workflow_dispatch: # Allows triggering the workflow manually in GitHub UI
@@ -16,5 +16,6 @@ permissions:
   contents: read
 
 jobs:
-  helm_lint:
+  helm_ci:
+    name: helm
     uses: ./.github/workflows/helm_ci.yml

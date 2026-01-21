@@ -15,4 +15,5 @@ permissions:
 
 jobs:
   docker_ci:
+    name: docker
     uses: ./.github/workflows/docker_ci.yml

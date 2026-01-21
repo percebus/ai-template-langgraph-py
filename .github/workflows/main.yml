@@ -16,15 +16,20 @@ permissions:
 
 jobs:
   python_ci:
+    name: python
     uses: ./.github/workflows/python_ci.yml
 
   terraform_ci:
+    name: terraform
     needs: python_ci
     uses: ./.github/workflows/terraform_ci.yml
 
   docker_ci:
+    name: docker
+    needs: pythons_ci
     uses: ./.github/workflows/docker_ci.yml
 
   helm_lint:
+    name: helm
     needs: docker_ci
     uses: ./.github/workflows/helm_ci.yml
