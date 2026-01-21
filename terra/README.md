@@ -8,8 +8,6 @@ Having everything under `terra` allows to simplify devops activities, such as
 $> terraform -chdir=./terra fmt -recursive -diff -list=true -check
 ```
 
-[See `scripts/terraform/fmt/run.ba.sh`](../scripts/terraform/fmt/run.ba.sh)
-
 ### Why "terra" and not "terraform"?
 
 Well, there is a `terragrunt` tool, and also a `terratester` tool.
