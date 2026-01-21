@@ -34,18 +34,21 @@ jobs:
       matrix:
         include:
           # - base
-          # - project
+          # - uv
           # - dev
           - target: tested
             scan-image: false
+            run: true
 
           # - base
-          # - project
+          # - uv
           - target: release
+            run: ${{ github.ref == 'refs/heads/main' }}
             scan-image: ${{ github.ref == 'refs/heads/main' }}
 
     runs-on: ubuntu-latest
     name: docker build --target ${{ matrix.target }}
+    if: ${{ matrix.run == true }}
     steps:
       - uses: actions/checkout@v4
 
