@@ -20,9 +20,14 @@ jobs:
     name: compose build
     runs-on: ubuntu-latest
     steps:
-      - uses: ./.github/actions/checkout
+      - uses: actions/checkout@v4
         with:
           submodules: "true"
+
+      - name: git submodule update
+        run: |
+          git submodule update --init --recursive
+          git submodule update --remote
 
       - name: docker compose build
         run: docker compose build
@@ -48,7 +53,7 @@ jobs:
     runs-on: ubuntu-latest
     name: build --target ${{ matrix.target }}
     steps:
-      - uses: ./.github/actions/checkout
+      - uses: actions/checkout@v4
 
       - uses: ./.github/actions/docker_build
         with:
