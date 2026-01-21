@@ -7,9 +7,14 @@ inputs:
     required: false
     default: ./helm
 
+  helm_lint_flags:
+    description: Additional flags to pass to 'helm lint'
+    required: false
+    default: "--strict"
+
 runs:
   using: composite
   steps:
     - name: helm lint
       shell: bash
-      run: helm lint ${{ inputs.working-directory }}
+      run: helm lint ${{ inputs.helm_lint_flags }} ${{ inputs.working-directory }}

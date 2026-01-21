@@ -77,7 +77,7 @@
 
     [tasks.helm_lint]
     help = "Lint helm charts"
-    cmd = "helm lint ./helm"
+    cmd = "helm lint --strict ./helm"
 
 
     [tasks.lint]
