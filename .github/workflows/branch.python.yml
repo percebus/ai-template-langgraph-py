@@ -20,5 +20,4 @@ permissions:
 
 jobs:
   python:
-    name: unit-tests
     uses: ./.github/workflows/python_ci.yml

@@ -1,23 +1,23 @@
 # This workflow will run unit tests for the current project
 
-name: python
+name: python CI
 
 on:
   workflow_call: # SRC: https://docs.github.com/en/actions/using-workflows/reusing-workflows
 
 jobs:
-  unit-tests:
-    name: Unit Tests
+  python_ci:
     strategy:
       matrix:
         os:
           - ubuntu-latest
 
         python-version:
-          - "3.11"
           - "3.12"
+          - "3.13"
 
     runs-on: ${{ matrix.os }}
+    name: "python:${{ matrix.python-version }} @ ${{ matrix.os }}"
     steps:
       - uses: actions/checkout@v4
       - name: Set up Python ${{ matrix.python-version }}
