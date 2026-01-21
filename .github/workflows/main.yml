@@ -26,5 +26,5 @@ jobs:
     uses: ./.github/workflows/docker_ci.yml
 
   helm_lint:
-    needs: docker_compose_build
+    needs: docker_ci
     uses: ./.github/workflows/helm_ci.yml
