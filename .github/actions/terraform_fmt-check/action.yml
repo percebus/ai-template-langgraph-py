@@ -1,0 +1,21 @@
+name: terraform fmt -check
+description: Check Terraform formatting
+
+inputs:
+  working-directory:
+    description: The working directory for Terraform commands
+    required: false
+    default: ./terra
+
+  terraform_fmt_options:
+    description: Additional options to pass to 'terraform fmt -check'
+    required: false
+    default: "-recursive -diff -list=true"
+
+runs:
+  using: composite
+  steps:
+    - name: terraform fmt -check
+      shell: bash
+      working-directory: ${{ inputs.working-directory }}
+      run: terraform fmt -check ${{ inputs.terraform_fmt_options }}

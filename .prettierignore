@@ -1,0 +1,20 @@
+.vscode/
+.vs/
+
+# dist/
+dist/
+
+# python
+__pycache__/
+.pytest_cache/
+.ruff_cache/
+.venv/
+
+# helm
+helm/
+
+# default # SRC: https://prettier.io/docs/en/ignore.html
+**/.git
+**/.svn
+**/.hg
+node_modules/

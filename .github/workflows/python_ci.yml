@@ -1,41 +1,20 @@
 # This workflow will run unit tests for the current project
 
-name: "[C]ontinuous [I]ntegration"
+name: python CI
 
 on:
-  workflow_dispatch: # Allows triggering the workflow manually in GitHub UI
-  pull_request:
-  push:
-    branches: ["main"]
-
-# If another push to the same PR or branch happens while this workflow is still running,
-# cancel the earlier run in favor of the next run.
-concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
-
-permissions:
-  contents: read
+  workflow_call: # SRC: https://docs.github.com/en/actions/using-workflows/reusing-workflows
 
 jobs:
-  unit-tests:
-    name: Unit Tests
-    strategy:
-      matrix:
-        os:
-          - ubuntu-latest
-
-        python-version:
-          - "3.11"
-          - "3.12"
-
-    runs-on: ${{ matrix.os }}
+  verify:
+    runs-on: ubuntu-latest
+    name: Verify
     steps:
       - uses: actions/checkout@v4
-      - name: Set up Python ${{ matrix.python-version }}
+
+      - name: Set up Python
         uses: actions/setup-python@v4
-        with:
-          python-version: ${{ matrix.python-version }}
+
       - name: Install dependencies
         run: |
           curl -LsSf https://astral.sh/uv/install.sh | sh

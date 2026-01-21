@@ -1,0 +1,21 @@
+name: terraform init
+description: Initialize Terraform
+
+inputs:
+  working-directory:
+    description: The working directory for Terraform commands
+    required: false
+    default: ./terra
+
+  terraform_init_options:
+    description: Additional options to pass to 'terraform init'
+    required: false
+    default: "-input=false -upgrade"
+
+runs:
+  using: composite
+  steps:
+    - name: terraform init
+      shell: bash
+      working-directory: ${{ inputs.working-directory }}
+      run: terraform init ${{ inputs.terraform_init_options }}

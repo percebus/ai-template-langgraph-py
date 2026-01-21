@@ -1,0 +1,35 @@
+name: "[C]ontinuous [I]ntegration: main"
+
+on:
+  workflow_dispatch: # Allows triggering the workflow manually in GitHub UI
+  push:
+    branches: ["main"]
+
+# If another push to the same PR or branch happens while this workflow is still running,
+# cancel the earlier run in favor of the next run.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  python_ci:
+    uses: ./.github/workflows/python_ci.yml
+
+  docker_compose_build:
+    name: docker compose build
+    runs-on: ubuntu-latest
+    needs: python_ci
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: docker compose build
+        run: docker compose build
+
+  # TODO Add helm
+
+  terraform_ci:
+    needs: docker_compose_build
+    uses: ./.github/workflows/terraform_ci.yml

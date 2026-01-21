@@ -1,0 +1,21 @@
+name: terraform validate
+description: Validate Terraform configuration
+
+inputs:
+  working-directory:
+    description: The working directory for Terraform commands
+    required: false
+    default: ./terra
+
+  terraform_validate_options:
+    description: Additional options to pass to 'terraform validate'
+    required: false
+    default: ""
+
+runs:
+  using: composite
+  steps:
+    - name: terraform validate
+      shell: bash
+      working-directory: ${{ inputs.working-directory }}
+      run: terraform validate ${{ inputs.terraform_validate_options }}
