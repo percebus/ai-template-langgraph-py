@@ -1,4 +1,4 @@
-name: terraform CI
+name: terraform fmt & validate
 
 on:
   workflow_call: # SRC: https://docs.github.com/en/actions/using-workflows/reusing-workflows
