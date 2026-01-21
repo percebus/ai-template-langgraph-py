@@ -1,0 +1,3 @@
+[submodule "submodules/a2a-inspector"]
+	path = submodules/a2a-inspector
+	url = https://github.com/a2aproject/a2a-inspector.git
