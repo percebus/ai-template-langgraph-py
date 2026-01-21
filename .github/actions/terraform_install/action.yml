@@ -1,0 +1,42 @@
+name: terraform install
+description: Install terraform
+
+inputs:
+  runs-on:
+    description: The type of runner on which to run the job
+    required: false
+    default: ubuntu-latest
+
+# SRC: http://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli
+runs:
+  using: composite
+  steps:
+    - name: apt-get update
+      shell: bash
+      run: sudo apt-get update
+
+    - name: apt-get install
+      shell: bash
+      run: |
+        sudo apt-get install -y gnupg
+        sudo apt-get install -y software-properties-common
+
+    - name: Install HashiCorp's GPG key.
+      shell: bash
+      run: wget -O- https://apt.releases.hashicorp.com/gpg | gpg --dearmor | sudo tee /usr/share/keyrings/hashicorp-archive-keyring.gpg > /dev/null
+
+    - name: Add the official HashiCorp repository.
+      shell: bash
+      run: echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(grep -oP '(?<=UBUNTU_CODENAME=).*' /etc/os-release || lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/hashicorp.list
+
+    - name: apt update
+      shell: bash
+      run: sudo apt update
+
+    - name: apt-get install terraform
+      shell: bash
+      run: sudo apt-get install -y terraform
+
+    - name: "terraform -version"
+      shell: bash
+      run: terraform -version

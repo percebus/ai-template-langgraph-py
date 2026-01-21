@@ -42,7 +42,7 @@
 
     [tasks.terraform_fmt_check]
     help = "Check terraform formatting"
-    cmd = "terraform -chdir=./terra fmt -check"
+    cmd = "terraform -chdir=./terra fmt -check -recursive -diff -list=true"
 
     [tasks.terraform_update_plan]
     help = "Update terraform plan"
