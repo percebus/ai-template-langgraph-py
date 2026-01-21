@@ -1,9 +1,10 @@
-name: "[C]ontinuous [I]ntegration: main"
+name: helm lint
 
 on:
   workflow_dispatch: # Allows triggering the workflow manually in GitHub UI
-  push:
-    branches: ["main"]
+  pull_request:
+    paths:
+      - helm/**
 
 # If another push to the same PR or branch happens while this workflow is still running,
 # cancel the earlier run in favor of the next run.
@@ -15,16 +16,5 @@ permissions:
   contents: read
 
 jobs:
-  python_ci:
-    uses: ./.github/workflows/python_ci.yml
-
-  terraform_ci:
-    needs: python_ci
-    uses: ./.github/workflows/terraform_ci.yml
-
-  docker_ci:
-    uses: ./.github/workflows/docker_ci.yml
-
   helm_lint:
-    needs: docker_compose_build
     uses: ./.github/workflows/helm_ci.yml

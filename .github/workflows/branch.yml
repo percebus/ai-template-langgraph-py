@@ -14,11 +14,5 @@ permissions:
   contents: read
 
 jobs:
-  docker_compose_build:
-    name: docker compose build
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: docker compose build
-        run: docker compose build
+  docker_ci:
+    uses: ./.github/workflows/docker_ci.yml

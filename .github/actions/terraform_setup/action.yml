@@ -1,4 +1,4 @@
-name: terraform install
+name: terraform setup
 description: Install terraform
 
 inputs:
@@ -8,6 +8,7 @@ inputs:
     default: ubuntu-latest
 
 # SRC: http://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli
+# TODO make most of this a script
 runs:
   using: composite
   steps:

@@ -1,4 +1,4 @@
-name: terraform validate
+name: "[C]ontinuous [I]ntegration: terraform"
 
 on:
   workflow_call: # SRC: https://docs.github.com/en/actions/using-workflows/reusing-workflows
@@ -10,7 +10,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: ./.github/actions/terraform_install
+      - uses: ./.github/actions/terraform_setup
       - uses: ./.github/actions/terraform_init
       - uses: ./.github/actions/terraform_fmt-check
       - uses: ./.github/actions/terraform_validate

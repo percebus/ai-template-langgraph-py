@@ -1,0 +1,15 @@
+name: helm lint
+description: Lint Helm charts
+
+inputs:
+  working-directory:
+    description: The working directory for Helm commands
+    required: false
+    default: ./helm
+
+runs:
+  using: composite
+  steps:
+    - name: helm lint
+      shell: bash
+      run: helm lint ./helm

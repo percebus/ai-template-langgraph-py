@@ -1,0 +1,20 @@
+name: helm setup
+description: Install Helm
+
+inputs:
+  runs-on:
+    description: The type of runner on which to run the job
+    required: false
+    default: ubuntu-latest
+
+# SRC: https://helm.sh/docs/intro/install/#from-script
+runs:
+  using: composite
+  steps:
+    - name: get-helm-4
+      shell: bash
+      run: curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-4 | bash
+
+    - name: helm version
+      shell: bash
+      run: helm version

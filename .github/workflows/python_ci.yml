@@ -1,6 +1,4 @@
-# This workflow will run unit tests for the current project
-
-name: python CI
+name: "[C]ontinuous [I]ntegration: python"
 
 on:
   workflow_call: # SRC: https://docs.github.com/en/actions/using-workflows/reusing-workflows
