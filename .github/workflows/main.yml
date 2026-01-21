@@ -19,5 +19,5 @@ jobs:
     uses: ./.github/workflows/python_ci.yml
 
   terraform_ci:
-    needs: unit-tests
+    needs: python_ci
     uses: ./.github/workflows/terraform_ci.yml
