@@ -12,7 +12,6 @@ inputs:
     required: false
     default: ""
 
-# SRC: http://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli
 runs:
   using: composite
   steps:
