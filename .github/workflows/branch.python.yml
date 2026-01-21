@@ -4,6 +4,8 @@ on:
   workflow_dispatch: # Allows triggering the workflow manually in GitHub UI
   pull_request:
     paths:
+      - .github/workflows/python_ci.yml
+      - .github/workflows/branch.python.yml
       - src/**
       - tests/**
 
