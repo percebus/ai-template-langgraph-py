@@ -3,16 +3,6 @@ name: helm lint
 on:
   workflow_call: # SRC: https://docs.github.com/en/actions/using-workflows/reusing-workflows
 
-
-# If another push to the same PR or branch happens while this workflow is still running,
-# cancel the earlier run in favor of the next run.
-concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
-
-permissions:
-  contents: read
-
 jobs:
   helm_lint:
     name: lint

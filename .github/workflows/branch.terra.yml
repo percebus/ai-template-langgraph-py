@@ -4,8 +4,8 @@ on:
   workflow_dispatch: # Allows triggering the workflow manually in GitHub UI
   pull_request:
     paths:
-      - .github/workflows/terra_ci.yml
       - .github/workflows/branch.terra.yml
+      - .github/workflows/terraform_ci.yml
       - terra/**
 
 # If another push to the same PR or branch happens while this workflow is still running,
