@@ -1,6 +1,6 @@
 # This workflow will run unit tests for the current project
 
-name: "[C]ontinuous [I]ntegration"
+name: unit-tests
 
 on:
   workflow_dispatch: # Allows triggering the workflow manually in GitHub UI
