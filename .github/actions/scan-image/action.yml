@@ -1,0 +1,46 @@
+name: scan-image
+description: scan and upload image vulnerabilities as SARIF
+
+# NOTE: Fixes "Error: Resource not accessible by integration"
+# permissions:
+#   contents: read
+#   security-events: write
+
+inputs:
+  image_tag:
+    description: The image tag
+    required: true
+
+  fail-build:
+    description: Fail the build if vulnerabilities are found
+    required: false
+    default: "false"
+
+  severity-cutoff:
+    description: The minimum severity level to report
+    required: false
+    default: "high"
+
+  only-fixed:
+    description: Only report vulnerabilities that have been fixed
+    required: false
+    default: "false"
+
+runs:
+  using: composite
+
+  steps:
+    - name: Scan ${{ inputs.image_tag }}
+      uses: anchore/scan-action@v3
+      id: scan
+      with:
+        image: ${{ inputs.image_tag }}
+        fail-build: ${{ inputs.fail-build }}
+        severity-cutoff: ${{ inputs.severity-cutoff }}
+        only-fixed: ${{ inputs.only-fixed }}
+        output-format: sarif
+
+    - name: Upload SARIF
+      uses: github/codeql-action/upload-sarif@v3
+      with:
+        sarif_file: ${{ steps.scan.outputs.sarif }}

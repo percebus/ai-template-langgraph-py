@@ -2,6 +2,19 @@ name: docker CI
 
 on:
   workflow_call: # SRC: https://docs.github.com/en/actions/using-workflows/reusing-workflows
+    inputs:
+      repository_name:
+        type: string
+        description: Repository name
+        required: false
+        default: ${{ github.event.repository.name }}
+
+      image_tag_suffix:
+        type: string
+        description: Suffix to append to the image tag
+        required: false
+        default: latest
+
 
 jobs:
   docker_compose_build:
@@ -13,4 +26,34 @@ jobs:
       - name: docker compose build
         run: docker compose build
 
-  # TODO docker build {target}
+  docker_build__matrix:
+    needs: docker_compose
+    continue-on-error: true
+    strategy:
+      max-parallel: 10
+      matrix:
+        include:
+          # - base
+          # - project
+          # - dev
+          - target: tested
+            scan-image: false
+
+          # - base
+          # - project
+          - target: release
+            scan-image: ${{ github.ref == 'refs/heads/main' }}
+
+    runs-on: ubuntu-latest
+    name: docker build --target ${{ matrix.target }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: ./.github/actions/docker_build
+        with:
+          target: ${{ matrix.target }}
+
+      - uses: ./.github/actions/scan-image
+        if: ${{ inputs.scan-image == 'true' }}
+        with:
+          image_tag: ${{ inputs.repository_name }}.${{ inputs.target }}:${{ inputs.image_tag_suffix }}
