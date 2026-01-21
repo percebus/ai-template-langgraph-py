@@ -1,5 +1,5 @@
 
-!/env/*.src.sh.example
+!/terra/env/*.example
 
 /data/
 

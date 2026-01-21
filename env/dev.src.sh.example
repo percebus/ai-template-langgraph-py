@@ -1,5 +1,0 @@
-export TF_VAR_ENVIRONMENT="dev"
-export TF_VAR_ARM_REGION="eastus"
-export TF_VAR_ARM_RESOURCES_PREFIX=""
-export TF_VAR_ARM_RESOURCES_SUFFIX=""
-export TF_VAR_REPOSITORY_NAME="ai-template-langgraph-py"

@@ -46,7 +46,10 @@
 
     [tasks.terraform_update_plan]
     help = "Update terraform plan"
-    cmd = "terraform -chdir=./terra plan -out ./dist/apply.tfplan"
+    args = [
+        {name = "var_file", help = "The terraform var file to use", default = "./env/dev.tfvars"}
+    ]
+    cmd = "terraform -chdir=./terra plan -var-file=${var_file} -out ./dist/apply.tfplan"
 
     [tasks.terraform_update_apply]
     help = "Apply terraform plan"
@@ -54,7 +57,10 @@
 
     [tasks.terraform_destroy_plan]
     help = "Create terraform destroy plan"
-    cmd = "terraform -chdir=./terra plan -destroy -out ./dist/destroy.tfplan"
+    args = [
+        {name = "var_file", help = "The terraform var file to use", default = "./env/dev.tfvars"}
+    ]
+    cmd = "terraform -chdir=./terra plan -destroy -var-file=${var_file} -out ./dist/destroy.tfplan"
 
     [tasks.terraform_destroy_apply]
     help = "Apply terraform destroy plan"

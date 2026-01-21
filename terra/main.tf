@@ -6,7 +6,7 @@ resource "random_id" "stack" {
 locals {
   environment       = var.ENVIRONMENT
   location          = var.ARM_REGION
-  name_suffix       = var.ARM_RESOURCES_SUFFIX ? var.ARM_RESOURCES_SUFFIX : random_id.stack.hex
+  name_suffix       = var.ARM_RESOURCES_SUFFIX != "" ? var.ARM_RESOURCES_SUFFIX : random_id.stack.hex
   name_prefix_long  = "${var.ARM_RESOURCES_PREFIX}${var.REPOSITORY_NAME}-${local.environment}-${local.location}-${local.name_suffix}"
   name_prefix_short = "${local.environment}-${local.name_suffix}"
   repo_name         = var.REPOSITORY_NAME
