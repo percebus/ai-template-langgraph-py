@@ -1,5 +1,7 @@
 from dataclasses import dataclass
+
 from langchain_core.messages.base import BaseMessage
+
 
 @dataclass
 class State:

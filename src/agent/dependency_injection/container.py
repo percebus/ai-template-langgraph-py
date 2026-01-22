@@ -5,11 +5,12 @@ from azure.identity import DefaultAzureCredential, get_bearer_token_provider
 from dotenv import load_dotenv
 from lagom import Container
 from langchain_core.language_models.chat_models import BaseChatModel
+from langchain_core.runnables.base import Runnable
 from langchain_core.runnables.graph import Graph
+from langchain_core.tools.base import BaseTool
 from langchain_openai import AzureChatOpenAI
 from langchain_openai.chat_models.base import BaseChatOpenAI
-from langgraph.graph import StateGraph, START
-from langchain_core.runnables.base import Runnable
+from langgraph.graph import START, StateGraph
 from langgraph.graph.state import CompiledStateGraph
 
 from agent.agent import ChatAgent
@@ -18,13 +19,12 @@ from agent.config.os_environ.settings import Settings
 from agent.dependency_injection.aliases import CognitiveServicesAccessToken
 from agent.utils.context import Context
 from agent.utils.state import State
-from langchain_core.tools.base import BaseTool
 
 
 def create_settings() -> Settings:
     """Factory function to create Settings instance."""
     load_dotenv()
-    return Settings()  # pyright: ignore[reportCallIssue]
+    return Settings()  # type: ignore[call-arg, unused-ignore]
 
 
 container = Container()
@@ -47,15 +47,14 @@ container[AzureChatOpenAI] = lambda c: AzureChatOpenAI(
 container[BaseChatOpenAI] = lambda c: c[AzureChatOpenAI]
 container[BaseChatModel] = lambda c: c[BaseChatOpenAI]  # type: ignore
 
-container[list[BaseTool]] = lambda c: []  # type: ignore
-container[Runnable] = lambda c: c[BaseChatModel]\
-    .bind_tools(c[list[BaseTool]])  # type: ignore
+container[list[BaseTool]] = lambda c: []  # type: ignore[unused-ignore]
+container[Runnable] = lambda c: c[BaseChatModel].bind_tools(c[list[BaseTool]])  # type: ignore
 
 container[ChatAgent] = lambda c: ChatAgent(runnable=c[Runnable])
 
 # TODO move to an langgraph folder of sorts. i.e. "utils"
 # fmt: off
-container[StateGraph] = lambda c: (  # type: ignore
+container[StateGraph] = lambda c: (  # type: ignore[unused-ignore]
     StateGraph(State, context_schema=Context)
         .add_node("call_model", c[ChatAgent].call_model)   # pyright: ignore[reportUnknownMemberType]
         .add_edge(START, "call_model")
@@ -63,5 +62,5 @@ container[StateGraph] = lambda c: (  # type: ignore
 # fmt: on
 
 
-container[CompiledStateGraph] = lambda c: c[StateGraph].compile(name="Compiled Graph")  # type: ignore
-container[Graph] = lambda c: c[CompiledStateGraph].get_graph(xray=True)  # type: ignore
+container[CompiledStateGraph] = lambda c: c[StateGraph].compile(name="Compiled Graph")  # type: ignore[unused-ignore]
+container[Graph] = lambda c: c[CompiledStateGraph].get_graph(xray=True)  # type: ignore[unused-ignore]

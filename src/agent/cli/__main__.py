@@ -1,12 +1,13 @@
 import asyncio
 from pprint import pprint
-from typing import Any
+from typing import TYPE_CHECKING, Any
 
+from lagom import Container
 from langchain.messages import HumanMessage
 from langgraph.graph.state import CompiledStateGraph
-from langchain_core.messages.base import BaseMessage
 
-from agent.dependency_injection.container import Container
+if TYPE_CHECKING:
+    from langchain_core.messages.base import BaseMessage
 
 
 async def run(container: Container) -> None:
@@ -15,10 +16,10 @@ async def run(container: Container) -> None:
     msg = input("Enter your message: ")
     while msg:
         message = HumanMessage(content=msg)
-        messages = [message]
-        response: dict[str, Any] = await graph.ainvoke({"messages": messages})
-        messages: list[BaseMessage] = response.get("messages", [])
-        for message in messages:
+        messages: list[BaseMessage] = [message]
+        response: dict[str, Any] = await graph.ainvoke({"messages": messages})  # pyright: ignore[reportUnknownMemberType]
+        new_messages: list[Any] = response.get("messages", [])  # FIXME list[BaseMessage]
+        for message in new_messages:
             pprint(message)
 
         msg = input()
