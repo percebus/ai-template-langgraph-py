@@ -1,0 +1,9 @@
+name: uv python install
+description: uv python install
+
+runs:
+  using: composite
+  steps:
+    - name: uv python install
+      shell: bash
+      run: uv python install

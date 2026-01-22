@@ -1,0 +1,15 @@
+name: uv sync
+description: uv sync
+
+inputs:
+  uv_sync_cli_options:
+    description: Additional flags to pass to 'uv sync'
+    required: false
+    default: "--locked --all-extras --all-groups"
+
+runs:
+  using: composite
+  steps:
+    - name: uv sync
+      shell: bash
+      run: uv sync ${{ inputs.uv_sync_cli_options }}

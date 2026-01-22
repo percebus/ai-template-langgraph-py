@@ -21,9 +21,9 @@ jobs:
     uses: ./.github/workflows/npm_lint.yml
 
   python_ci:
-    name: python
+    name: uv
     needs: npm_lint
-    uses: ./.github/workflows/python_ci.yml
+    uses: ./.github/workflows/uv_ci.yml
 
   terraform_ci:
     name: terraform

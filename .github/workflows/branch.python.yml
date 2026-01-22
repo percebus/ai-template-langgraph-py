@@ -5,7 +5,7 @@ on:
   pull_request:
     paths:
       - .github/workflows/branch.python.yml
-      - .github/workflows/python_ci.yml
+      - .github/workflows/uv_ci.yml
       - src/**
       - tests/**
 
@@ -20,5 +20,5 @@ permissions:
 
 jobs:
   python_ci:
-    name: python
-    uses: ./.github/workflows/python_ci.yml
+    name: uv
+    uses: ./.github/workflows/uv_ci.yml
