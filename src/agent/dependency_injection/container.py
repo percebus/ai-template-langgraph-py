@@ -46,7 +46,7 @@ container[AzureChatOpenAI] = lambda c: AzureChatOpenAI(
 container[BaseChatOpenAI] = lambda c: c[AzureChatOpenAI]
 container[BaseChatModel] = lambda c: c[BaseChatOpenAI]
 
-container[ChatAgent] = lambda c: ChatAgent(chat_client=c[BaseChatModel])
+container[ChatAgent] = lambda c: ChatAgent(openai=c[BaseChatOpenAI])
 
 # fmt: off
 container[StateGraph] = lambda c: StateGraph(State, context_schema=Context) \
