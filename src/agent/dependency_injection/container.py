@@ -32,7 +32,7 @@ container = Container()
 container[Settings] = create_settings
 
 container[DefaultAzureCredential] = DefaultAzureCredential
-container[TokenCredential] = lambda c: c[DefaultAzureCredential]
+container[TokenCredential] = lambda c: c[DefaultAzureCredential]  # type: ignore
 
 container[CognitiveServicesAccessToken] = lambda c: c[TokenCredential].get_token("https://cognitiveservices.azure.com/.default")
 
@@ -44,13 +44,15 @@ container[AzureChatOpenAI] = lambda c: AzureChatOpenAI(
 )
 
 container[BaseChatOpenAI] = lambda c: c[AzureChatOpenAI]
-container[BaseChatModel] = lambda c: c[BaseChatOpenAI]
+container[BaseChatModel] = lambda c: c[BaseChatOpenAI]  # type: ignore
 
 container[ChatAgent] = lambda c: ChatAgent(openai=c[BaseChatOpenAI])
 
 # fmt: off
-container[StateGraph] = lambda c: StateGraph(State, context_schema=Context) \
-    .add_node(c[ChatAgent].call_model) \
-    .add_edge("__start__", "call_model") \
-    .compile(name="New Graph") # type: ignore
+container[StateGraph] = lambda c: (  # type: ignore
+    StateGraph(State, context_schema=Context)
+        .add_node(c[ChatAgent].call_model)   # pyright: ignore[reportUnknownMemberType]
+        .add_edge("__start__", "call_model")
+        .compile(name="New Graph")
+)
 # fmt: on

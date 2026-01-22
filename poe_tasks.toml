@@ -22,10 +22,13 @@
         help = "Checks if uv-sort was fixed"
         cmd = "uv run uv-sort --check"
 
-    # TODO
-    # [tasks.pyright]
-    #     help = "Checks type hints with pyright"
-    #     cmd = "uv run pyright --warnings"
+    [tasks.pyright]
+        help = "Checks type hints with pyright"
+        cmd = "uv run pyright --warnings"
+
+    [tasks.mypy]
+        help = "Checks type hints with mypy"
+        cmd = "uv run mypy --strict ./src"
 
 
     [tasks.terraform_init]
@@ -74,7 +77,7 @@
 
     [tasks.lint]
         help = "Checks linting"
-        sequence = ["uv-sort_check", "ruff_check", "terraform_fmt_check", "helm_lint"]  #, "pyright"] # TODO
+        sequence = ["uv-sort_check", "ruff_check", "pyright", "mypy", "terraform_fmt_check", "helm_lint"]
 
     [tasks.format]
         help = "Reformat"
