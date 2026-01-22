@@ -11,12 +11,12 @@ if TYPE_CHECKING:
     from langchain_core.runnables.utils import Output
     from langgraph.runtime import Runtime
 
-    from agent.utils.context import Context
-    from agent.utils.state import State
+    from agent.lang_graph.context import Context
+    from agent.lang_graph.state import State
 
 
 @dataclass
-class ChatAgent:
+class ModelInvoker:
     runnable: Runnable = field()  # type:ignore
 
     # TODO read from jinja
