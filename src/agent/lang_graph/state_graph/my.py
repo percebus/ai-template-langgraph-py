@@ -29,7 +29,7 @@ class MyStateGraph:
             return "invoke_tool"
 
         # Otherwise, we stop (reply to the user)
-        return END
+        return END  # type: ignore[return]
 
     def __post_init__(self) -> StateGraph[A2AMessagesState, Context]:  # type: ignore[unused-ignore, type-arg]
         # SRC: https://docs.langchain.com/oss/python/langgraph/quickstart#6-build-and-compile-the-agent
@@ -42,7 +42,7 @@ class MyStateGraph:
 
                 # Edges
                 .add_edge(START, "invoke_model")
-                .add_conditional_edges("invoke_model", self.should_continue, ["invoke_tool", END])  # type: ignore
+                .add_conditional_edges("invoke_model", self.should_continue, ["invoke_tool", END])  # type: ignore[unused-ignore]
                 .add_edge("invoke_tool", "invoke_model")
         )
         # fmt: on

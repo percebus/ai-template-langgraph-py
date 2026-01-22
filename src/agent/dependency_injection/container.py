@@ -61,10 +61,10 @@ container[dict[str, BaseTool]] = lambda c: {tool.name: tool for tool in c[list[B
 container[Runnable] = lambda c: c[BaseChatModel].bind_tools(c[list[BaseTool]])  # type: ignore
 
 container[ModelInvoker] = lambda c: ModelInvoker(runnable=c[Runnable])
-container[ModelInvokerProtocol] = lambda c: c[ModelInvoker]
+container[ModelInvokerProtocol] = lambda c: c[ModelInvoker]  # type: ignore[unused-ignore]
 
 container[ToolInvoker] = lambda c: ToolInvoker(tools_by_name=c[dict[str, BaseTool]])
-container[ToolInvokerProtocol] = lambda c: c[ToolInvoker]
+container[ToolInvokerProtocol] = lambda c: c[ToolInvoker]  # type: ignore[unused-ignore]
 
 # fmt: off
 container[MyStateGraph] = lambda c: MyStateGraph(
