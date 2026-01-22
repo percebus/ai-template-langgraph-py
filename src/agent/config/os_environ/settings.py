@@ -1,6 +1,7 @@
-from dataclasses import Field
-
+from pydantic import Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
+
+from agent.config.os_environ.azure_openai import AzureOpenAISettings
 
 
 class Settings(BaseSettings):
@@ -15,12 +16,10 @@ class Settings(BaseSettings):
         env_nested_delimiter="__",
     )
 
-    debug: bool = Field(default=False)  # type: ignore
+    debug: bool = Field(default=False)
 
-    dry_run: bool = Field(default=True)  # type: ignore
+    dry_run: bool = Field(default=True)
 
-    environment: str = Field(min_length=2)  # type: ignore
+    environment: str = Field(min_length=2)
 
-    azure_openai_endpoint: str = Field(min_length=10)  # type: ignore
-    azure_openai_deployment: str = Field(min_length=2)  # type: ignore
-    azure_openai_api_version: str = Field(min_length=2)  # type: ignore
+    azure_openai: AzureOpenAISettings = Field(default_factory=AzureOpenAISettings)  # type: ignore
