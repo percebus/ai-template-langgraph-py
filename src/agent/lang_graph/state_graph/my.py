@@ -18,6 +18,8 @@ class MyStateGraph:
 
     tool_invoker: ToolInvokerProtocol = field()
 
+    state_graph: StateGraph[A2AMessagesState, Context] = field(init=False)
+
     def should_continue(self, state: A2AMessagesState) -> Literal["invoke_tool", END]:  # type: ignore
         """Decide if we should continue the loop or stop based upon whether the LLM made a tool call"""
 
@@ -29,9 +31,9 @@ class MyStateGraph:
             return "invoke_tool"
 
         # Otherwise, we stop (reply to the user)
-        return END  # type: ignore[return]
+        return END
 
-    def __post_init__(self) -> StateGraph[A2AMessagesState, Context]:  # type: ignore[unused-ignore, type-arg]
+    def __post_init__(self) -> None:
         # SRC: https://docs.langchain.com/oss/python/langgraph/quickstart#6-build-and-compile-the-agent
         # fmt:  off
         self.state_graph = (
