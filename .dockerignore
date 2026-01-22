@@ -1,10 +1,10 @@
 
-!/terra/env/*.example
+# !/terra/env/*.example
 
 /data/
 tmp/
 
-submodules/
+# submodules/
 
 # pytest
 test*.xml

@@ -3,14 +3,6 @@
         help = "Clean the project"
         cmd = "uvx pyclean src"
 
-    [tasks.prettier-write]
-        help = "format codebase with prettier"
-        cmd = "npx prettier . --write"
-
-    [tasks.prettier-check]
-        help = "check codebase formatting with prettier"
-        cmd = "npx prettier . --check"
-
     [tasks.ruff_format]
         help = "format codebase with ruff"
         cmd = "ruff format ./src ./tests"

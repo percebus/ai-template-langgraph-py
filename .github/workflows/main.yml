@@ -3,7 +3,7 @@ name: "[C]ontinuous [I]ntegration: main"
 on:
   workflow_dispatch: # Allows triggering the workflow manually in GitHub UI
   push:
-    # branches: ["main"]
+    branches: ["main"]
 
 # If another push to the same PR or branch happens while this workflow is still running,
 # cancel the earlier run in favor of the next run.
@@ -16,8 +16,13 @@ permissions:
   security-events: write
 
 jobs:
+  npm_lint:
+    name: npm
+    uses: ./.github/workflows/npm_lint.yml
+
   python_ci:
     name: python
+    needs: npm_lint
     uses: ./.github/workflows/python_ci.yml
 
   terraform_ci:

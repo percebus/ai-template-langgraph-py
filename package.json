@@ -1,0 +1,36 @@
+{
+  "name": "ai-template-langgraph-py",
+  "version": "0.1.0",
+  "description": "langgraph A2A template",
+  "keywords": [
+    "langgraph",
+    "A2A",
+    "MCP",
+    "AI",
+    "template"
+  ],
+  "homepage": "https://github.com/percebus/ai-template-langgraph-py#readme",
+  "bugs": {
+    "url": "https://github.com/percebus/ai-template-langgraph-py/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/percebus/ai-template-langgraph-py.git"
+  },
+  "license": "SEE LICENSE IN LICENSE.md",
+  "scripts": {
+    "_prettier": "prettier .",
+    "prettier:check": "npm run _prettier -- --check",
+    "prettier:write": "npm run _prettier -- --write",
+    "lint": "npm run prettier:check",
+    "format": "npm run prettier:write",
+    "postformat": "npm run lint",
+    "test": "exit 0"
+  },
+  "devDependencies": {
+    "prettier": "^3.8.1"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/inspector": "^0.18.0"
+  }
+}

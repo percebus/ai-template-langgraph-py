@@ -14,6 +14,11 @@ permissions:
   contents: read
 
 jobs:
+  npm:
+    name: npm
+    uses: ./.github/workflows/npm_lint.yml
+
   docker_ci:
     name: docker
+    needs: npm
     uses: ./.github/workflows/docker_ci.yml

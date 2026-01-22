@@ -15,13 +15,19 @@ on:
         required: false
         default: latest
 
-
 jobs:
   docker_compose_build:
     name: compose build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          submodules: "true"
+
+      - name: git submodule update
+        run: |
+          git submodule update --init --recursive
+          git submodule update --remote
 
       - name: docker compose build
         run: docker compose build

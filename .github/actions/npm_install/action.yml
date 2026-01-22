@@ -1,0 +1,9 @@
+name: npm install
+description: npm install
+
+runs:
+  using: composite
+  steps:
+    - name: npm install
+      shell: bash
+      run: npm clean-install
