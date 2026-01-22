@@ -2,21 +2,17 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING, Any, Protocol
 
-from langchain.messages import AIMessage, SystemMessage
-
 if TYPE_CHECKING:
-    from langchain_core.messages.base import BaseMessage
+    from langchain.messages import SystemMessage
     from langchain_core.runnables.base import Runnable
-    from langchain_core.runnables.utils import Output
     from langgraph.runtime import Runtime
 
     from agent.lang_graph.context import Context
     from agent.lang_graph.state import State
 
 
-
 class ModelInvokerProtocol(Protocol):
-    runnable: Runnable
+    runnable: Runnable  # type: ignore[unused-ignore, type-arg]
 
     # TODO read from jinja
     system_message: SystemMessage
