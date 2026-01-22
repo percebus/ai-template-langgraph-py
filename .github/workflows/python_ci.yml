@@ -55,7 +55,7 @@ jobs:
         run: uv python install
 
       - name: uv tool install
-        run: bash scripts/tool/install.ba.sh
+        run: bash scripts/uv/tool/install.ba.sh
 
       - name: uv sync
         run: uv sync --locked --all-extras --all-groups
