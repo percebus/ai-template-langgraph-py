@@ -6,7 +6,7 @@ on:
 jobs:
   verify:
     runs-on: ubuntu-latest
-    name: Verify
+    name: poe ci
     steps:
       - uses: actions/checkout@v4
 
