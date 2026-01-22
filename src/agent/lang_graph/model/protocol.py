@@ -8,7 +8,7 @@ if TYPE_CHECKING:
     from langgraph.runtime import Runtime
 
     from agent.lang_graph.context import Context
-    from agent.lang_graph.state import State
+    from agent.lang_graph.states.a2a import A2AMessagesState
 
 
 class ModelInvokerProtocol(Protocol):
@@ -18,6 +18,6 @@ class ModelInvokerProtocol(Protocol):
     system_message: SystemMessage
 
     # SRC: https://docs.langchain.com/langsmith/server-a2a#creating-an-a2a-compatible-agent
-    async def call_model(self, state: State, runtime: Runtime[Context]) -> dict[str, Any]:
+    async def invoke_async(self, state: A2AMessagesState, runtime: Runtime[Context]) -> dict[str, Any]:
         """Process conversational messages and returns output using OpenAI."""
         ...
