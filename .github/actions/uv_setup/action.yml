@@ -1,0 +1,13 @@
+name: uv setup
+description: Setup uv
+
+runs:
+  using: composite
+  steps:
+    - name: setup uv
+      shell: bash
+      run: curl -LsSf https://astral.sh/uv/install.sh | sh
+
+    - name: uv version
+      shell: bash
+      run: uv version
