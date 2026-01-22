@@ -19,7 +19,7 @@ from agent.dependency_injection.aliases import CognitiveServicesAccessToken
 from agent.lang_graph.context import Context
 from agent.lang_graph.model.invoker import ModelInvoker
 from agent.lang_graph.state import State
-from agent.lang_graph.state_graph_factory import StateGraphFactory
+from agent.lang_graph.state_graph.factory import StateGraphFactory
 
 
 def create_settings() -> Settings:
