@@ -75,13 +75,30 @@
     cmd = "helm lint --strict ./helm"
 
 
-    [tasks.lint]
+    [tasks.lint_python]
         help = "Checks linting"
-        sequence = ["uv-sort_check", "ruff_check", "pyright", "mypy", "terraform_fmt_check", "helm_lint"]
+        sequence = ["uv-sort_check", "ruff_check", "pyright", "mypy"]
+
+    [tasks.lint_all]
+        help = "Checks linting"
+        sequence = ["lint_python", "terraform_fmt_check", "helm_lint"]
+
+    [tasks.lint]
+        help = "lint alias"
+        sequence = ["lint_python"]
+
+    [tasks.format_python]
+        help = "Reformat"
+        sequence = ["uv-sort", "ruff_format", "ruff_check-fix", "lint_python"]
+
+    [tasks.format_all]
+        help = "Reformat"
+        sequence = ["uv-sort", "ruff_format", "ruff_check-fix", "terraform_fmt", "lint_all"]
 
     [tasks.format]
-        help = "Reformat"
-        sequence = ["uv-sort", "ruff_format", "ruff_check-fix", "terraform_fmt", "lint"]
+        help = "format alias"
+        sequence = ["format_python"]
+
 
     [tasks.test]
         help = "Run tests"

@@ -55,11 +55,12 @@ extend-select = [
 fixable = ["ALL"]
 ignore = [
     "D1",  # Missing docstring
+    "ISC001",  # line-ending: "The following rule may cause conflicts when used with the formatter."
     "TD",  # TODO
 ]
 
 [lint.pydocstyle]
-convention = "numpy"
+convention = "google"
 
 [lint.per-file-ignores]
 "tests/*" = ["D", "N"]
