@@ -1,6 +1,7 @@
 FROM python:3.13 AS base
 WORKDIR /usr/app
 COPY . .
+RUN bash scripts/bash/clean.ba.sh
 
 # SRC: https://docs.astral.sh/uv/guides/integration/docker/
 FROM base AS uv
@@ -15,7 +16,7 @@ FROM uv AS dev
 RUN bash scripts/uv/tool/install.ba.sh
 RUN uvx --from poethepoet poe sync
 RUN uvx --from poethepoet poe build
-CMD [ "uvx", "--from", "poethepoet", "poe", "ci" ]
+CMD [ "langgraph", "dev"]
 
 FROM dev AS tested
 RUN uvx --from poethepoet poe ci
