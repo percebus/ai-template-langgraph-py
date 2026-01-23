@@ -12,13 +12,13 @@ if TYPE_CHECKING:
 
 
 async def run_async(container: Container) -> None:
-    graph = await container[Awaitable[CompiledStateGraph]]  # type: ignore[type-abstract, type-arg]
+    graph = await container[Awaitable[CompiledStateGraph]]  # type: ignore[type-abstract, type-arg] # FIXME
 
     msg = input("Enter your message: ")
     while msg:
         message = HumanMessage(content=msg)
         messages: list[BaseMessage] = [message]
-        response: dict[str, Any] = await graph.ainvoke({"messages": messages})  # pyright: ignore[reportUnknownMemberType]
+        response: dict[str, Any] = await graph.ainvoke({"messages": messages})  # pyright: ignore[reportUnknownMemberType] # FIXME
         new_messages: list[Any] = response.get("messages", [])  # FIXME list[BaseMessage]
         for message in new_messages:
             pprint(message)

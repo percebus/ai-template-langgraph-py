@@ -129,7 +129,7 @@ container[Awaitable[list[BaseTool]]] = get_all_tools_async  # type: ignore[type-
 container[Awaitable[AsyncToolInvoker]] = create_tool_invoker_async  # type: ignore[type-abstract] # FIXME
 container[Awaitable[ToolInvokerProtocol]] = lambda c: c[Awaitable[AsyncToolInvoker]]  # type: ignore[type-abstract] # FIXME
 
-container[Awaitable[MyStateGraph]] = create_my_state_graph_async  # type: ignore[type-abstract]
+container[Awaitable[MyStateGraph]] = create_my_state_graph_async  # type: ignore[type-abstract] # FIXME
 
 container[Awaitable[StateGraph[A2AMessagesState, Context]]] = create_state_graph_async  # type: ignore[type-abstract] # FIXME
 container[Awaitable[CompiledStateGraph[A2AMessagesState, Context]]] = create_compiled_state_graph_async  # type: ignore[type-abstract] # FIXME

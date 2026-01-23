@@ -24,4 +24,4 @@ class Settings(BaseSettings):
 
     mcp_urls: dict[str, AnyUrl] = Field(default_factory=lambda: {})
 
-    azure_openai: AzureOpenAISettings = Field(default_factory=AzureOpenAISettings)  # type: ignore
+    azure_openai: AzureOpenAISettings = Field(default_factory=AzureOpenAISettings)  # type: ignore # FIXME
