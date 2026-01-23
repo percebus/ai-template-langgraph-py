@@ -49,4 +49,5 @@ class RunnnableModelInvoker(ModelInvokerProtocol):
         # Create a response message
         response_message = AIMessage(content=ai_response, tool_calls=tool_calls)  # , **response) # TODO
 
-        return {"messages": state.messages + [response_message]}
+        new_messages = state.messages + [response_message]
+        return {"messages": new_messages}

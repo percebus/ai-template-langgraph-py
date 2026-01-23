@@ -18,7 +18,7 @@ class AsyncToolInvoker(ToolInvokerProtocol):
     async def invoke_async(self, state: A2AMessagesState) -> dict[str, list[Any]]:
         """Performs the tool call"""
 
-        result = state.messages.copy()
+        messages = state.messages.copy()
         last_message: BaseMessage = state.messages[-1]
         tool_calls: list[dict[str, Any]] | Any = last_message.tool_calls  # type: ignore # FIXME
         if not tool_calls:
@@ -26,8 +26,8 @@ class AsyncToolInvoker(ToolInvokerProtocol):
 
         for tool_call in tool_calls:  # pyright: ignore[reportUnknownVariableType] # FIXME
             tool = self.tools[tool_call["name"]]
-            observation: Any = await tool.ainvoke(tool_call["args"])  # pyright: ignore[reportUnknownMemberType] # FIXME
-            tool_message = ToolMessage(content=observation, tool_call_id=tool_call["id"])
-            result.append(tool_message)
+            result: Any = await tool.ainvoke(tool_call["args"])  # pyright: ignore[reportUnknownMemberType] # FIXME
+            tool_message = ToolMessage(content=result, tool_call_id=tool_call["id"])
+            messages.append(tool_message)
 
-        return {"messages": result}
+        return {"messages": messages}
