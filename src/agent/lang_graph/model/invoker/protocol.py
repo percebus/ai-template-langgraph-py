@@ -11,7 +11,6 @@ if TYPE_CHECKING:
 
 
 class ModelInvokerProtocol(Protocol):
-
     # TODO read from jinja
     system_message: SystemMessage
 

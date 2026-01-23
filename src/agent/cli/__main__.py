@@ -29,6 +29,7 @@ async def run(container: Container) -> None:
 
 async def main_async() -> None:
     from agent.dependency_injection.container import container
+
     await init_async(container)
     await run(container)
 

@@ -4,9 +4,8 @@ from dataclasses import dataclass, field
 from typing import TYPE_CHECKING, Any
 
 from langchain.messages import AIMessage, SystemMessage
-from langchain_core.language_models.chat_models import BaseChatModel
 from langchain_core.runnables.base import Runnable
-from langchain_core.tools.base import BaseTool
+
 if TYPE_CHECKING:
     from langchain_core.messages.base import BaseMessage
     from langchain_core.runnables.base import Runnable

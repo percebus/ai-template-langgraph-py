@@ -1,4 +1,4 @@
-from pydantic import Field, AnyUrl
+from pydantic import AnyUrl, Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 from agent.config.os_environ.azure_openai import AzureOpenAISettings

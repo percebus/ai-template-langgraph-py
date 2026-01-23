@@ -13,13 +13,7 @@ if TYPE_CHECKING:
 
 @dataclass
 class ToolInvoker(ToolInvokerProtocol):
-
     tools: list[BaseTool] = field()
-
-    @property
-    def tools_by_name(self) -> dict[str, BaseTool]:
-        """Retrieves tools and maps them by name."""
-        return {tool.name: tool for tool in self.tools}
 
     async def invoke_async(self, state: A2AMessagesState) -> dict[str, list[Any]]:
         """Performs the tool call"""
@@ -32,7 +26,7 @@ class ToolInvoker(ToolInvokerProtocol):
 
         for tool_call in tool_calls:  # pyright: ignore[reportUnknownVariableType]
             tool = self.tools_by_name[tool_call["name"]]
-            observation: Any = tool.invoke(tool_call["args"])  # pyright: ignore[reportUnknownMemberType]
+            observation: Any = await tool.ainvoke(tool_call["args"])  # pyright: ignore[reportUnknownMemberType]
             tool_message = ToolMessage(content=observation, tool_call_id=tool_call["id"])
             result.append(tool_message)
 
