@@ -4,7 +4,6 @@ from typing import TYPE_CHECKING, Any, Protocol
 
 if TYPE_CHECKING:
     from langchain.messages import SystemMessage
-    from langchain_core.runnables.base import Runnable
     from langgraph.runtime import Runtime
 
     from agent.lang_graph.context import Context
@@ -12,8 +11,6 @@ if TYPE_CHECKING:
 
 
 class ModelInvokerProtocol(Protocol):
-    runnable: Runnable  # type: ignore[unused-ignore, type-arg]
-
     # TODO read from jinja
     system_message: SystemMessage
 

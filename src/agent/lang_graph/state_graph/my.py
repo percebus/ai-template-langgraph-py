@@ -4,9 +4,9 @@ from typing import TYPE_CHECKING, Any, Literal
 from langgraph.graph import END, START, StateGraph
 
 from agent.lang_graph.context import Context
-from agent.lang_graph.model.protocol import ModelInvokerProtocol
+from agent.lang_graph.model.invoker.protocol import ModelInvokerProtocol
 from agent.lang_graph.states.a2a import A2AMessagesState
-from agent.lang_graph.tools.protocol import ToolInvokerProtocol
+from agent.lang_graph.tools.invoker.protocol import ToolInvokerProtocol
 
 if TYPE_CHECKING:
     from langchain_core.messages.base import BaseMessage
@@ -40,7 +40,7 @@ class MyStateGraph:
             StateGraph(A2AMessagesState, context_schema=Context)  # type: ignore[unused-ignore]
                 # Nodes
                 .add_node("invoke_model", self.model_invoker.invoke_async)  # pyright: ignore[reportUnknownMemberType]
-                .add_node("invoke_tool", self.tool_invoker.invoke)  # type: ignore[unused-ignore]
+                .add_node("invoke_tool", self.tool_invoker.invoke_async)  # type: ignore[unused-ignore]
 
                 # Edges
                 .add_edge(START, "invoke_model")

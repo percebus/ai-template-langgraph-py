@@ -6,6 +6,8 @@ from lagom import Container
 from langchain.messages import HumanMessage
 from langgraph.graph.state import CompiledStateGraph
 
+from agent.dependency_injection.container import init_async
+
 if TYPE_CHECKING:
     from langchain_core.messages.base import BaseMessage
 
@@ -25,11 +27,12 @@ async def run(container: Container) -> None:
         msg = input()
 
 
-def main() -> None:
+async def main_async() -> None:
     from agent.dependency_injection.container import container
 
-    asyncio.run(run(container))
+    await init_async(container)
+    await run(container)
 
 
 if __name__ == "__main__":
-    main()
+    asyncio.run(main_async())
