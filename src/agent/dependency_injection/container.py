@@ -1,4 +1,7 @@
 from __future__ import annotations
+from ast import Await
+from calendar import c
+from collections.abc import Awaitable
 
 from azure.core.credentials import TokenCredential
 from azure.identity import DefaultAzureCredential, get_bearer_token_provider
@@ -12,24 +15,57 @@ from langchain_openai import AzureChatOpenAI
 from langchain_openai.chat_models.base import BaseChatOpenAI
 from langgraph.graph import StateGraph
 from langgraph.graph.state import CompiledStateGraph
+from langchain_mcp_adapters.client import MultiServerMCPClient
+from lagom.interfaces import ReadableContainer
+
 
 from agent.config.os_environ.azure_openai import AzureOpenAISettings
 from agent.config.os_environ.settings import Settings
 from agent.dependency_injection.aliases import CognitiveServicesAccessToken
+from agent.lang_graph import state_graph
 from agent.lang_graph.context import Context
-from agent.lang_graph.model.invoker import ModelInvoker
-from agent.lang_graph.model.protocol import ModelInvokerProtocol
+from agent.lang_graph.model.invoker.runner import ModelInvoker
+from agent.lang_graph.model.invoker.protocol import ModelInvokerProtocol
+from agent.lang_graph.state_graph import my
 from agent.lang_graph.state_graph.my import MyStateGraph
 from agent.lang_graph.states.a2a import A2AMessagesState
-from agent.lang_graph.tools.invoker import ToolInvoker
+from agent.lang_graph.tools.invoker.by_name import ToolInvoker
 from agent.lang_graph.tools.math import add, divide, multiply
-from agent.lang_graph.tools.protocol import ToolInvokerProtocol
-
+from agent.lang_graph.tools.invoker.protocol import ToolInvokerProtocol
 
 def create_settings() -> Settings:
     """Factory function to create Settings instance."""
     load_dotenv()
     return Settings()  # type: ignore[call-arg, unused-ignore]
+
+
+def create_multi_server_mcp_client(container: ReadableContainer) -> MultiServerMCPClient:
+    """Factory function to create MCP client instance."""
+    settings = container[Settings]
+
+    entries = {}
+    for k, v in settings.mcp_urls.items():
+        entry = {
+            "transport": "http",
+            "url": str(v),
+        }
+
+        entries[k] = entry
+
+    return MultiServerMCPClient(entries)  # pyright: ignore[reportUnknownArgumentType]
+
+
+async def get_all_tools_async(container: ReadableContainer) -> list[BaseTool]:
+    """Factory function to get all tools (local + remote) asynchronously."""
+    mcp_client = container[MultiServerMCPClient]
+    remote_tools = await mcp_client.get_tools()
+    local_tools = [add, multiply, divide]
+    return local_tools + remote_tools
+
+
+async def init_async(container: Container) -> None:
+    """Factory function to create and compile the state graph."""
+    container[list[BaseTool]] = await container[Awaitable[list[BaseTool]]]
 
 
 container = Container()
@@ -54,16 +90,18 @@ container[AzureChatOpenAI] = lambda c: AzureChatOpenAI(
 container[BaseChatOpenAI] = lambda c: c[AzureChatOpenAI]
 container[BaseChatModel] = lambda c: c[BaseChatOpenAI]  # type: ignore
 
-container[list[BaseTool]] = lambda c: [add, multiply, divide]
+# remote tools
+container[MultiServerMCPClient] = create_multi_server_mcp_client
 
-container[dict[str, BaseTool]] = lambda c: {tool.name: tool for tool in c[list[BaseTool]]}
+# All tools, including locals
+container[Awaitable[list[BaseTool]]] = get_all_tools_async
 
 container[Runnable] = lambda c: c[BaseChatModel].bind_tools(c[list[BaseTool]])  # type: ignore
 
 container[ModelInvoker] = lambda c: ModelInvoker(runnable=c[Runnable])
 container[ModelInvokerProtocol] = lambda c: c[ModelInvoker]  # type: ignore[type-abstract]
 
-container[ToolInvoker] = lambda c: ToolInvoker(tools_by_name=c[dict[str, BaseTool]])
+container[ToolInvoker] = lambda c: ToolInvoker(tools=c[list[BaseTool]])
 container[ToolInvokerProtocol] = lambda c: c[ToolInvoker]  # type: ignore[type-abstract]
 
 # fmt: off
@@ -74,7 +112,7 @@ container[MyStateGraph] = lambda c: MyStateGraph(
 # fmt: on
 
 container[StateGraph[A2AMessagesState, Context]] = lambda c: c[MyStateGraph].state_graph
-container[StateGraph] = lambda c: c[StateGraph[A2AMessagesState, Context]]
+container[StateGraph] = lambda c: c[Awaitable[StateGraph[A2AMessagesState, Context]]]
 
-container[CompiledStateGraph] = lambda c: c[StateGraph].compile(name="Compiled Graph")  # type: ignore[unused-ignore]
+container[[CompiledStateGraph]] = lambda c: c[StateGraph].compile(name="Compiled Graph")  # type: ignore[unused-ignore]
 container[Graph] = lambda c: c[CompiledStateGraph].get_graph(xray=True)

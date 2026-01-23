@@ -1,4 +1,4 @@
-from pydantic import Field
+from pydantic import Field, AnyUrl
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 from agent.config.os_environ.azure_openai import AzureOpenAISettings
@@ -21,5 +21,7 @@ class Settings(BaseSettings):
     dry_run: bool = Field(default=True)
 
     environment: str = Field(min_length=2)
+
+    mcp_urls: dict[str, AnyUrl] = Field(default_factory=list)  # type: ignore
 
     azure_openai: AzureOpenAISettings = Field(default_factory=AzureOpenAISettings)  # type: ignore

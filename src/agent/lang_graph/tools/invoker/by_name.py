@@ -5,7 +5,7 @@ from langchain.messages import ToolMessage
 from langchain_core.tools.base import BaseTool
 
 from agent.lang_graph.states.a2a import A2AMessagesState
-from agent.lang_graph.tools.protocol import ToolInvokerProtocol
+from agent.lang_graph.tools.invoker.protocol import ToolInvokerProtocol
 
 if TYPE_CHECKING:
     from langchain_core.messages.base import BaseMessage
@@ -13,9 +13,15 @@ if TYPE_CHECKING:
 
 @dataclass
 class ToolInvoker(ToolInvokerProtocol):
-    tools_by_name: dict[str, BaseTool] = field()
 
-    def invoke(self, state: A2AMessagesState) -> dict[str, list[Any]]:
+    tools: list[BaseTool] = field()
+
+    @property
+    def tools_by_name(self) -> dict[str, BaseTool]:
+        """Retrieves tools and maps them by name."""
+        return {tool.name: tool for tool in self.tools}
+
+    async def invoke_async(self, state: A2AMessagesState) -> dict[str, list[Any]]:
         """Performs the tool call"""
 
         result = state.messages.copy()
