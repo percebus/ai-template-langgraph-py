@@ -1,9 +1,8 @@
+# SRC: https://docs.langchain.com/langsmith/deploy-standalone-server#docker-compose
 volumes:
     langgraph-data:
         driver: local
 
-# See scripts/langgraph/build.ba.sh
-# SRC: https://docs.langchain.com/langsmith/deploy-standalone-server#docker-compose
 services:
   langgraph-redis:
       image: redis:6
@@ -17,12 +16,17 @@ services:
       image: postgres:16
       ports:
           - 5432:5432
-      environment:
-          POSTGRES_DB: postgres
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
+
+      # environment:
+      #   - POSTGRES_DB
+      #   - POSTGRES_USER
+      #   - POSTGRES_PASSWORD
+      env_file:
+        - .env.langgraph
+
       volumes:
           - langgraph-data:/var/lib/postgresql/data
+
       healthcheck:
           test: pg_isready -U postgres
           start_period: 10s
@@ -31,6 +35,7 @@ services:
           interval: 5s
 
   langgraph-api:
+    # NOTE: See scripts/langgraph/build.ba.sh
     image: ${IMAGE}
     depends_on:
         langgraph-redis:
@@ -39,12 +44,13 @@ services:
             condition: service_healthy
     ports:
       - 8123:8000
+
+    # environment:
+    #   - REDIS_URI
+    #   - LANGSMITH_API_KEY
+    #   - DATABASE_URI
     env_file:
-      - .env
-    environment:
-        REDIS_URI: redis://langgraph-redis:6379
-        LANGSMITH_API_KEY: ${LANGSMITH_API_KEY}
-        DATABASE_URI: postgres://postgres:postgres@langgraph-postgres:5432/postgres?sslmode=disable
+      - .env.langgraph
 
   a2a-inspector:
     build:
