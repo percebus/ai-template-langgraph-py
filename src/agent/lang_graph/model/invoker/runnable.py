@@ -6,6 +6,8 @@ from typing import TYPE_CHECKING, Any
 from langchain.messages import AIMessage, SystemMessage
 from langchain_core.runnables.base import Runnable
 
+from agent.lang_graph.model.invoker.protocol import ModelInvokerProtocol
+
 if TYPE_CHECKING:
     from langchain_core.messages.base import BaseMessage
     from langchain_core.runnables.base import Runnable
@@ -17,7 +19,7 @@ if TYPE_CHECKING:
 
 
 @dataclass
-class ModelInvoker:
+class RunnnableModelInvoker(ModelInvokerProtocol):
     runnable: Runnable = field()  # type:ignore
 
     # TODO read from jinja
@@ -35,10 +37,10 @@ class ModelInvoker:
         ai_response: str = ""
         tool_calls: list[dict[str, Any]] = []
         try:
-            response: Output = await self.runnable.ainvoke(messages)  # type: ignore
-            ai_response = response.content  # type: ignore
-            if response.tool_calls:  # type: ignore
-                tool_calls = response.tool_calls  # type: ignore
+            response: Output = await self.runnable.ainvoke(messages)  # type: ignore # FIXME
+            ai_response = response.content  # type: ignore # FIXME
+            if response.tool_calls:  # type: ignore # FIXME
+                tool_calls = response.tool_calls  # type: ignore # FIXME
 
         except Exception as e:
             print(f"Error calling OpenAI API: {e}")  # FIXME logging

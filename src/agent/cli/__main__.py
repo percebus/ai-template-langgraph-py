@@ -1,4 +1,5 @@
 import asyncio
+from collections.abc import Awaitable
 from pprint import pprint
 from typing import TYPE_CHECKING, Any
 
@@ -6,20 +7,18 @@ from lagom import Container
 from langchain.messages import HumanMessage
 from langgraph.graph.state import CompiledStateGraph
 
-from agent.dependency_injection.container import init_async
-
 if TYPE_CHECKING:
     from langchain_core.messages.base import BaseMessage
 
 
-async def run(container: Container) -> None:
-    graph = container[CompiledStateGraph]  # pyright: ignore[reportUnknownVariableType]
+async def run_async(container: Container) -> None:
+    graph = await container[Awaitable[CompiledStateGraph]]  # type: ignore[type-abstract, type-arg] # FIXME
 
     msg = input("Enter your message: ")
     while msg:
         message = HumanMessage(content=msg)
         messages: list[BaseMessage] = [message]
-        response: dict[str, Any] = await graph.ainvoke({"messages": messages})  # pyright: ignore[reportUnknownMemberType]
+        response: dict[str, Any] = await graph.ainvoke({"messages": messages})  # pyright: ignore[reportUnknownMemberType] # FIXME
         new_messages: list[Any] = response.get("messages", [])  # FIXME list[BaseMessage]
         for message in new_messages:
             pprint(message)
@@ -30,8 +29,7 @@ async def run(container: Container) -> None:
 async def main_async() -> None:
     from agent.dependency_injection.container import container
 
-    await init_async(container)
-    await run(container)
+    await run_async(container)
 
 
 if __name__ == "__main__":

@@ -1,6 +1,6 @@
 # SRC: https://docs.langchain.com/oss/python/langgraph/quickstart#1-define-tools-and-model
 
-from langchain.tools import tool  # pyright: ignore[reportUnknownVariableType]
+from langchain.tools import tool  # pyright: ignore[reportUnknownVariableType] # FIXME
 
 
 # Define tools

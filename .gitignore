@@ -14,6 +14,9 @@ test-results.xml
 !.vscode/settings.json
 !.vscode/launch.json
 
+# langgraph
+.langgraph_api/
+
 
 # NOTE: vvv Do NOT add below this point
 # It is meant to be a copy+paste from well established .gitignore files

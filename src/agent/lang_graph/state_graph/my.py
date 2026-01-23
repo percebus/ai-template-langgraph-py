@@ -5,6 +5,7 @@ from langgraph.graph import END, START, StateGraph
 
 from agent.lang_graph.context import Context
 from agent.lang_graph.model.invoker.protocol import ModelInvokerProtocol
+from agent.lang_graph.state_graph.protocol import StateGraphProtocol
 from agent.lang_graph.states.a2a import A2AMessagesState
 from agent.lang_graph.tools.invoker.protocol import ToolInvokerProtocol
 
@@ -13,18 +14,18 @@ if TYPE_CHECKING:
 
 
 @dataclass
-class MyStateGraph:
+class MyStateGraph(StateGraphProtocol):
     model_invoker: ModelInvokerProtocol = field()
 
     tool_invoker: ToolInvokerProtocol = field()
 
     state_graph: StateGraph[A2AMessagesState, Context] = field(init=False)
 
-    def should_continue(self, state: A2AMessagesState) -> Literal["invoke_tool", END]:  # type: ignore
+    def should_continue(self, state: A2AMessagesState) -> Literal["invoke_tool", END]:  # type: ignore # FIXME
         """Decide if we should continue the loop or stop based upon whether the LLM made a tool call"""
 
         last_message: BaseMessage = state.messages[-1]
-        tool_calls: list[dict[str, Any]] | Any = last_message.tool_calls  # type: ignore
+        tool_calls: list[dict[str, Any]] | Any = last_message.tool_calls  # type: ignore # FIXME
 
         # If the LLM makes a tool call, then perform an action
         if tool_calls:
@@ -37,14 +38,14 @@ class MyStateGraph:
         # SRC: https://docs.langchain.com/oss/python/langgraph/quickstart#6-build-and-compile-the-agent
         # fmt:  off
         self.state_graph = (
-            StateGraph(A2AMessagesState, context_schema=Context)  # type: ignore[unused-ignore]
+            StateGraph(A2AMessagesState, context_schema=Context)  # type: ignore[unused-ignore] # FIXME
                 # Nodes
-                .add_node("invoke_model", self.model_invoker.invoke_async)  # pyright: ignore[reportUnknownMemberType]
-                .add_node("invoke_tool", self.tool_invoker.invoke_async)  # type: ignore[unused-ignore]
+                .add_node("invoke_model", self.model_invoker.invoke_async)  # pyright: ignore[reportUnknownMemberType] # FIXME
+                .add_node("invoke_tool", self.tool_invoker.invoke_async)  # type: ignore[unused-ignore] # FIXME
 
                 # Edges
                 .add_edge(START, "invoke_model")
-                .add_conditional_edges("invoke_model", self.should_continue, ["invoke_tool", END])  # type: ignore[unused-ignore]
+                .add_conditional_edges("invoke_model", self.should_continue, ["invoke_tool", END])  # type: ignore[unused-ignore] # FIXME
                 .add_edge("invoke_tool", "invoke_model")
         )
         # fmt: on
