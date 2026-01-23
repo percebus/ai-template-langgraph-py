@@ -5,6 +5,7 @@ from langgraph.graph import END, START, StateGraph
 
 from agent.lang_graph.context import Context
 from agent.lang_graph.model.invoker.protocol import ModelInvokerProtocol
+from agent.lang_graph.state_graph.protocol import StateGraphProtocol
 from agent.lang_graph.states.a2a import A2AMessagesState
 from agent.lang_graph.tools.invoker.protocol import ToolInvokerProtocol
 
@@ -13,7 +14,7 @@ if TYPE_CHECKING:
 
 
 @dataclass
-class MyStateGraph:
+class MyStateGraph(StateGraphProtocol):
     model_invoker: ModelInvokerProtocol = field()
 
     tool_invoker: ToolInvokerProtocol = field()

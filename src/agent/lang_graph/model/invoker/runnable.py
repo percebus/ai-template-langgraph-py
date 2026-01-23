@@ -6,6 +6,8 @@ from typing import TYPE_CHECKING, Any
 from langchain.messages import AIMessage, SystemMessage
 from langchain_core.runnables.base import Runnable
 
+from agent.lang_graph.model.invoker.protocol import ModelInvokerProtocol
+
 if TYPE_CHECKING:
     from langchain_core.messages.base import BaseMessage
     from langchain_core.runnables.base import Runnable
@@ -17,7 +19,7 @@ if TYPE_CHECKING:
 
 
 @dataclass
-class ModelInvoker:
+class RunnnableModelInvoker(ModelInvokerProtocol):
     runnable: Runnable = field()  # type:ignore
 
     # TODO read from jinja
