@@ -22,6 +22,6 @@ class Settings(BaseSettings):
 
     environment: str = Field(min_length=2)
 
-    mcp_urls: dict[str, AnyUrl] = Field(default_factory=list)  # type: ignore
+    mcp_urls: dict[str, AnyUrl] = Field(default_factory=lambda: {})
 
     azure_openai: AzureOpenAISettings = Field(default_factory=AzureOpenAISettings)  # type: ignore

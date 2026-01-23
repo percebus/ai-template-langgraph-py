@@ -16,5 +16,5 @@ class ModelInvokerProtocol(Protocol):
 
     # SRC: https://docs.langchain.com/langsmith/server-a2a#creating-an-a2a-compatible-agent
     async def invoke_async(self, state: A2AMessagesState, runtime: Runtime[Context]) -> dict[str, Any]:
-        """Process conversationa l messages and returns output using OpenAI."""
+        """Process conversational messages and returns output using OpenAI."""
         ...
